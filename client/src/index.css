@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #ff5733;
+  --color-primary-light: #ff8c42;
+  --color-primary-pale: #ffd0b5;
+  --color-dark: #1a1a2e;
+  --color-cream: #f0ede8;
+  --color-surface: #f9f9f9;
+}
+
+body {
+  @apply bg-cream font-sans text-dark antialiased;
+}

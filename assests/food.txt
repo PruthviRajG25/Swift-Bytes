@@ -1,0 +1,119 @@
+1. **Item name:** Masala Dosa
+   **Category:** Breakfast
+   **Description shown to students:** Crispy South Indian rice crepe served with coconut chutney and sambar.
+   **Price (₹):** 80
+   **Tags:** Bestseller, South Indian, Crispy
+
+2. **Item name:** Veg Sandwich
+   **Category:** Snacks
+   **Description shown to students:** Fresh vegetable sandwich with cheese and mint chutney.
+   **Price (₹):** 60
+   **Tags:** Healthy, Quick Bite, Vegetarian
+
+3. **Item name:** Cold Coffee
+   **Category:** Beverages
+   **Description shown to students:** Chilled creamy coffee blended with milk and ice cream.
+   **Price (₹):** 90
+   **Tags:** Refreshing, Coffee, Popular
+
+4. **Item name:** Paneer Butter Masala
+   **Category:** Lunch
+   **Description shown to students:** Soft paneer cubes cooked in rich buttery tomato gravy.
+   **Price (₹):** 180
+   **Tags:** North Indian, Creamy, Bestseller
+
+5. **Item name:** Chocolate Brownie
+   **Category:** Dessert
+   **Description shown to students:** Warm gooey chocolate brownie topped with chocolate sauce.
+   **Price (₹):** 110
+   **Tags:** Sweet, Chocolate, Favorite
+
+6. **Item name:** Poha
+   **Category:** Breakfast
+   **Description shown to students:** Light and flavorful flattened rice cooked with peanuts and spices.
+   **Price (₹):** 50
+   **Tags:** Healthy, Maharashtrian, Light
+
+7. **Item name:** French Fries
+   **Category:** Snacks
+   **Description shown to students:** Crispy golden potato fries served with ketchup.
+   **Price (₹):** 70
+   **Tags:** Crispy, Kids Favorite, Fast Food
+
+8. **Item name:** Mango Shake
+   **Category:** Beverages
+   **Description shown to students:** Thick and creamy mango milkshake made with fresh mangoes.
+   **Price (₹):** 95
+   **Tags:** Summer Special, Sweet, Refreshing
+
+9. **Item name:** Veg Biryani
+   **Category:** Lunch
+   **Description shown to students:** Aromatic basmati rice cooked with vegetables and spices.
+   **Price (₹):** 150
+   **Tags:** Spicy, Rice Dish, Popular
+
+10. **Item name:** Gulab Jamun
+    **Category:** Dessert
+    **Description shown to students:** Soft milk-solid dumplings soaked in sugar syrup.
+    **Price (₹):** 60
+    **Tags:** Indian Sweet, Soft, Traditional
+
+11. **Item name:** Idli Sambar
+    **Category:** Breakfast
+    **Description shown to students:** Steamed rice cakes served with hot sambar and chutney.
+    **Price (₹):** 70
+    **Tags:** Healthy, South Indian, Light
+
+12. **Item name:** Spring Rolls
+    **Category:** Snacks
+    **Description shown to students:** Crispy vegetable rolls served with spicy dip.
+    **Price (₹):** 120
+    **Tags:** Chinese, Crispy, Spicy
+
+13. **Item name:** Lemon Soda
+    **Category:** Beverages
+    **Description shown to students:** Fizzy lemon drink with a refreshing tangy flavor.
+    **Price (₹):** 45
+    **Tags:** Refreshing, Summer Drink, Tangy
+
+14. **Item name:** Chole Bhature
+    **Category:** Lunch
+    **Description shown to students:** Fluffy bhature served with spicy chickpea curry.
+    **Price (₹):** 140
+    **Tags:** Punjabi, Spicy, Filling
+
+15. **Item name:** Ice Cream Sundae
+    **Category:** Dessert
+    **Description shown to students:** Vanilla ice cream topped with chocolate syrup and nuts.
+    **Price (₹):** 130
+    **Tags:** Cold Dessert, Sweet, Chocolate
+
+16. **Item name:** Upma
+    **Category:** Breakfast
+    **Description shown to students:** Savory semolina dish cooked with vegetables and spices.
+    **Price (₹):** 55
+    **Tags:** Healthy, South Indian, Light
+
+17. **Item name:** Nachos with Dip
+    **Category:** Snacks
+    **Description shown to students:** Crunchy nachos served with cheesy salsa dip.
+    **Price (₹):** 125
+    **Tags:** Mexican, Crunchy, Cheesy
+
+18. **Item name:** Strawberry Smoothie
+    **Category:** Beverages
+    **Description shown to students:** Fresh strawberry smoothie blended with yogurt and honey.
+    **Price (₹):** 110
+    **Tags:** Healthy, Fruity, Refreshing
+
+19. **Item name:** Rajma Chawal
+    **Category:** Lunch
+    **Description shown to students:** Kidney bean curry served with steamed rice.
+    **Price (₹):** 130
+    **Tags:** Comfort Food, North Indian, Protein Rich
+
+20. **Item name:** Cheesecake
+    **Category:** Dessert
+    **Description shown to students:** Creamy baked cheesecake with a buttery biscuit base.
+    **Price (₹):** 160
+    **Tags:** Creamy, Sweet, Premium

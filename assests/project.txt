@@ -1,0 +1,147 @@
+Build a simple MERN stack based Smart Canteen Management System for a college project.
+
+Tech Stack:
+
+* MongoDB
+* Express.js
+* React.js
+* Node.js
+* Tailwind CSS
+* Socket.IO for real-time updates
+
+Project Goal:
+Create a web application that automates food ordering in a college canteen. The system should reduce queues and allow customers to place and track food orders digitally.
+
+Main Features:
+
+1. Authentication
+
+* User registration and login
+* JWT authentication
+* Role-based access:
+
+  * Customer
+  * Admin
+
+2. Customer Features
+
+* View food menu
+* Add/remove items from cart
+* Update item quantity
+* Place food order
+* View order status in real time
+* View order history
+
+3. Menu System
+
+* Display food items with:
+
+  * name
+  * price
+  * image
+  * availability status
+* Category filtering
+
+4. Cart System
+
+* Add items to cart
+* Calculate total price
+* Quantity management
+
+5. Order Management
+
+* Generate order token number
+* Order status flow:
+
+  * Placed
+  * Preparing
+  * Ready
+  * Completed
+
+6. Real-Time Updates
+
+* Use Socket.IO
+* Customer should instantly see order status changes
+
+7. Admin Dashboard
+
+* Add/edit/delete food items
+* Manage orders
+* Update order status
+* View all active orders
+* Dashboard statistics:
+
+  * total orders
+  * revenue
+  * most ordered items
+
+8. Database Collections
+
+Users Collection:
+
+* name
+* email
+* password
+* role
+
+Food Collection:
+
+* name
+* category
+* price
+* image
+* available
+
+Orders Collection:
+
+* userId
+* items
+* totalPrice
+* status
+* tokenNumber
+* createdAt
+
+Frontend Requirements:
+
+* Modern responsive UI
+* Tailwind CSS styling
+* Mobile-friendly design
+* Dashboard layout
+
+Backend Requirements:
+
+* REST APIs using Express.js
+* MongoDB using Mongoose
+* Proper MVC structure
+* Error handling middleware
+
+Extra Requirements:
+
+* Clean folder structure
+* Reusable React components
+* Loading states
+* Toast notifications
+* Protected routes
+
+Expected Pages:
+
+* Login/Register
+* Home/Menu
+* Cart
+* Orders
+* Admin Dashboard
+* Manage Menu
+* Manage Orders
+
+Please generate:
+
+* complete project architecture
+* folder structure
+* backend API routes
+* MongoDB schemas
+* React components
+* Socket.IO integration
+* authentication flow
+* sample UI layout
+* deployment steps
+* best practices
