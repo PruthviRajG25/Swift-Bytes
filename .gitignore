@@ -5,11 +5,6 @@ yarn.lock
 
 # Environment variables
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
 # Build outputs
 dist/
 build/
@@ -31,20 +26,3 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# OS files
-Thumbs.db
-.AppleDouble
-.LSOverride
-
-# Misc
-.cache/
-.parcel-cache/
-temp/
-tmp/
-
-GITHUB_SETUP.md
-quick_start.md
-README.md
-UPI_ROADMAP.md
-
-VERCEL_DEPLOYMENT.md

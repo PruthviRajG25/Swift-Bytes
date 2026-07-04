@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { CANTEEN } from '../config/canteen';
 import toast from 'react-hot-toast';
@@ -13,8 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   if (user) {
-    navigate(user.role === 'admin' ? '/admin' : '/');
-    return null;
+    return <Navigate to={user.role === 'admin' ? '/admin' : '/'} replace />;
   }
 
   const handleSubmit = async (e) => {
@@ -79,11 +78,11 @@ const Login = () => {
             Sign up
           </Link>
         </p>
-        <aside className="mx-8 mb-6 rounded-xl bg-surface p-3 text-xs text-neutral-500">
+        {/* <aside className="mx-8 mb-6 rounded-xl bg-surface p-3 text-xs text-neutral-500">
           <p className="font-semibold text-dark">Demo (after seed):</p>
           <p>Admin: admin@canteen.com / admin123</p>
           <p>Student: student@canteen.com / student123</p>
-        </aside>
+        </aside> */}
       </article>
     </section>
   );

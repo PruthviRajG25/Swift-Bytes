@@ -4,7 +4,7 @@ import generateToken from '../utils/generateToken.js';
 // @desc    Register user
 // @route   POST /api/auth/register
 export const registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, dietPreference } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -16,6 +16,7 @@ export const registerUser = async (req, res) => {
     email,
     password,
     role: role === 'admin' ? 'admin' : 'customer',
+    dietPreference: ['veg', 'nonveg', 'all'].includes(dietPreference) ? dietPreference : 'all',
   });
 
   res.status(201).json({
@@ -23,6 +24,7 @@ export const registerUser = async (req, res) => {
     name: user.name,
     email: user.email,
     role: user.role,
+    dietPreference: user.dietPreference || 'all',
     token: generateToken(user._id),
   });
 };

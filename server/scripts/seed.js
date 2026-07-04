@@ -14,6 +14,7 @@ const foods = [
     price: 80,
     image: img('food_dosa_m7jxqk'),
     available: true,
+    isVeg: true,
     tags: ['Bestseller', 'South Indian', 'Crispy'],
   },
   {
@@ -23,6 +24,7 @@ const foods = [
     price: 60,
     image: img('food_sandwich_y2p8km'),
     available: true,
+    isVeg: true,
     tags: ['Healthy', 'Quick Bite', 'Vegetarian'],
   },
   {
@@ -32,6 +34,7 @@ const foods = [
     price: 90,
     image: img('food_coffee_cold_h3n5lp'),
     available: true,
+    isVeg: true,
     tags: ['Refreshing', 'Coffee', 'Popular'],
   },
   {
@@ -41,6 +44,7 @@ const foods = [
     price: 180,
     image: img('food_paneer_butter_masala_w8j2xo'),
     available: true,
+    isVeg: true,
     tags: ['North Indian', 'Creamy', 'Bestseller'],
   },
   {
@@ -50,6 +54,7 @@ const foods = [
     price: 110,
     image: img('food_brownie_chocolate_p4k9mn'),
     available: true,
+    isVeg: true,
     tags: ['Sweet', 'Chocolate', 'Favorite'],
   },
   {
@@ -59,6 +64,7 @@ const foods = [
     price: 50,
     image: img('food_poha_d7x3qr'),
     available: true,
+    isVeg: true,
     tags: ['Healthy', 'Maharashtrian', 'Light'],
   },
   {
@@ -68,6 +74,7 @@ const foods = [
     price: 70,
     image: img('food_fries_b2k8lm'),
     available: true,
+    isVeg: true,
     tags: ['Crispy', 'Kids Favorite', 'Fast Food'],
   },
   {
@@ -77,6 +84,7 @@ const foods = [
     price: 95,
     image: img('food_mango_shake_f5g7po'),
     available: true,
+    isVeg: true,
     tags: ['Summer Special', 'Sweet', 'Refreshing'],
   },
   {
@@ -86,6 +94,7 @@ const foods = [
     price: 150,
     image: img('food_veg_biryani_j8s3hu'),
     available: true,
+    isVeg: true,
     tags: ['Spicy', 'Rice Dish', 'Popular'],
   },
   {
@@ -95,6 +104,7 @@ const foods = [
     price: 60,
     image: img('food_gulab_jamun_r2v6nq'),
     available: true,
+    isVeg: true,
     tags: ['Indian Sweet', 'Soft', 'Traditional'],
   },
   {
@@ -104,6 +114,7 @@ const foods = [
     price: 70,
     image: img('food_idli_sambar_c9w1lk'),
     available: true,
+    isVeg: true,
     tags: ['Healthy', 'South Indian', 'Light'],
   },
   {
@@ -113,6 +124,7 @@ const foods = [
     price: 120,
     image: img('food_spring_rolls_t4m2jx'),
     available: true,
+    isVeg: true,
     tags: ['Chinese', 'Crispy', 'Spicy'],
   },
   {
@@ -122,6 +134,7 @@ const foods = [
     price: 45,
     image: img('food_lemon_soda_a8p3yx'),
     available: true,
+    isVeg: true,
     tags: ['Refreshing', 'Summer Drink', 'Tangy'],
   },
   {
@@ -131,6 +144,7 @@ const foods = [
     price: 140,
     image: img('food_chole_bhature_n6d5zw'),
     available: true,
+    isVeg: true,
     tags: ['Punjabi', 'Spicy', 'Filling'],
   },
   {
@@ -140,6 +154,7 @@ const foods = [
     price: 130,
     image: img('food_ice_cream_sundae_l3k7ms'),
     available: true,
+    isVeg: true,
     tags: ['Cold Dessert', 'Sweet', 'Chocolate'],
   },
   {
@@ -149,6 +164,7 @@ const foods = [
     price: 55,
     image: img('food_upma_e2h9qs'),
     available: true,
+    isVeg: true,
     tags: ['Healthy', 'South Indian', 'Light'],
   },
   {
@@ -158,6 +174,7 @@ const foods = [
     price: 125,
     image: img('food_nachos_dip_v7f4wo'),
     available: true,
+    isVeg: true,
     tags: ['Mexican', 'Crunchy', 'Cheesy'],
   },
   {
@@ -167,6 +184,7 @@ const foods = [
     price: 110,
     image: img('food_strawberry_smoothie_u1j8lr'),
     available: true,
+    isVeg: true,
     tags: ['Healthy', 'Fruity', 'Refreshing'],
   },
   {
@@ -176,6 +194,7 @@ const foods = [
     price: 130,
     image: img('food_rajma_chawal_s5b3gn'),
     available: true,
+    isVeg: true,
     tags: ['Comfort Food', 'North Indian', 'Protein Rich'],
   },
   {
@@ -185,9 +204,34 @@ const foods = [
     price: 160,
     image: img('food_cheesecake_o4d9xk'),
     available: true,
+    isVeg: true,
     tags: ['Creamy', 'Sweet', 'Premium'],
   },
 ];
+
+// add a couple of non-veg demo items
+foods.push(
+  {
+    name: 'Chicken 65',
+    category: 'Snacks',
+    description: 'Spicy fried chicken tossed with curry leaves and chillies.',
+    price: 180,
+    image: img('food_chicken_65_x1y2z3'),
+    available: true,
+    isVeg: false,
+    tags: ['Spicy', 'Starter', 'Popular'],
+  },
+  {
+    name: 'Egg Roll',
+    category: 'Snacks',
+    description: 'Rolled flatbread with spiced egg filling.',
+    price: 90,
+    image: img('food_egg_roll_a9b8c7'),
+    available: true,
+    isVeg: false,
+    tags: ['Street Food', 'Quick Bite'],
+  }
+);
 
 const seed = async () => {
   try {

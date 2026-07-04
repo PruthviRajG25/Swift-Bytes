@@ -41,6 +41,7 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [search, setSearch] = useState('');
+  const [dietMode, setDietMode] = useState('all'); // 'all' | 'veg' | 'nonveg'
   const [loading, setLoading] = useState(true);
   const [trending, setTrending] = useState([]);
   const [topCategoryItem, setTopCategoryItem] = useState(null);
@@ -114,6 +115,21 @@ const Home = () => {
     );
   }, [foods, search]);
 
+  const detectIsVeg = (f) => {
+    if (typeof f.isVeg === 'boolean') return f.isVeg;
+    const name = (f.name || '').toLowerCase();
+    const t = (Array.isArray(f.tags) ? f.tags : []).map((x) => String(x).toLowerCase());
+    if (t.includes('vegetarian') || t.includes('veg')) return true;
+    if (/\bveg\b/.test(name)) return true;
+    if (/paneer|tofu|salad|idli|dosa|poha|biryani|rajma|dal|upma|sandwich|mango|gulab|cheese|brownie|ice cream|cheesecake/.test(name)) return true;
+    return false;
+  };
+
+  const dietFilteredFoods = useMemo(() => {
+    if (dietMode === 'all') return filteredFoods;
+    return filteredFoods.filter((f) => (dietMode === 'veg' ? detectIsVeg(f) : !detectIsVeg(f)));
+  }, [filteredFoods, dietMode]);
+
   const sortedFoods = useMemo(() => {
     if (search.trim()) return filteredFoods;
     if (!trending?.length) return filteredFoods;
@@ -135,9 +151,10 @@ const Home = () => {
         <h1 className="text-lg font-bold text-white">{CANTEEN.name}</h1>
         <p className="mt-1 font-display text-xl font-bold leading-tight text-white">
           {CANTEEN.tagline} 🍔
+        
         </p>
         <p className="text-xs text-white/85">{CANTEEN.subtitle}</p>
-        <div className="mt-3 flex flex-wrap gap-1.5">
+          <div className="mt-3 flex flex-wrap gap-1.5">
           {CANTEEN.tags.map((tag) => (
             <span
               key={tag}
@@ -156,6 +173,29 @@ const Home = () => {
             onChange={(e) => setSearch(e.target.value)}
             className="flex-1 bg-transparent text-sm outline-none placeholder:text-neutral-400"
           />
+            <div className="ml-2 flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setDietMode('all')}
+                className={`rounded-full px-3 py-1 text-[12px] ${dietMode === 'all' ? 'bg-primary text-white' : 'bg-white text-neutral-600 border border-cream'}`}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                onClick={() => setDietMode('veg')}
+                className={`rounded-full px-3 py-1 text-[12px] ${dietMode === 'veg' ? 'bg-green-600 text-white' : 'bg-white text-neutral-600 border border-cream'}`}
+              >
+                Veg
+              </button>
+              <button
+                type="button"
+                onClick={() => setDietMode('nonveg')}
+                className={`rounded-full px-3 py-1 text-[12px] ${dietMode === 'nonveg' ? 'bg-red-600 text-white' : 'bg-white text-neutral-600 border border-cream'}`}
+              >
+                Non-Veg
+              </button>
+            </div>
         </div>
       </section>
 
@@ -209,11 +249,11 @@ const Home = () => {
           <div className="flex justify-center py-16">
             <LoadingSpinner size="lg" />
           </div>
-        ) : sortedFoods.length === 0 ? (
+        ) : dietFilteredFoods.length === 0 ? (
           <p className="py-16 text-center text-sm text-neutral-500">No items found.</p>
         ) : (
           <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {sortedFoods.map((food) => (
+            {dietFilteredFoods.map((food) => (
               <FoodCard key={food._id} food={food} />
             ))}
           </div>

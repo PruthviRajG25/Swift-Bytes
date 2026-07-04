@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema(
       enum: ['customer', 'admin'],
       default: 'customer',
     },
+    dietPreference: {
+      type: String,
+      enum: ['all', 'veg', 'nonveg'],
+      default: 'all',
+    },
   },
   { timestamps: true }
 );

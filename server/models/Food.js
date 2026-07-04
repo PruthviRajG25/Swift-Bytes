@@ -28,6 +28,10 @@ const foodSchema = new mongoose.Schema(
       required: [true, 'Cloudinary image URL is required'],
       trim: true,
     },
+    isVeg: {
+      type: Boolean,
+      default: null,
+    },
     available: {
       type: Boolean,
       default: true,

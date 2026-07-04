@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { CANTEEN } from '../config/canteen';
 import toast from 'react-hot-toast';
@@ -10,19 +10,19 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [dietPreference, setDietPreference] = useState('all');
   const { register, user } = useAuth();
   const navigate = useNavigate();
 
   if (user) {
-    navigate('/');
-    return null;
+    return <Navigate to="/" replace />;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await register(name, email, password);
+      await register(name, email, password, dietPreference);
       toast.success('Account created!');
       navigate('/');
     } catch (err) {
@@ -75,6 +75,39 @@ const Register = () => {
               minLength={6}
               className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium text-neutral-700">Diet preference</span>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="diet"
+                checked={dietPreference === 'all'}
+                onChange={() => setDietPreference('all')}
+                className="rounded"
+              />
+              All
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="diet"
+                checked={dietPreference === 'veg'}
+                onChange={() => setDietPreference('veg')}
+                className="rounded"
+              />
+              Veg
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="diet"
+                checked={dietPreference === 'nonveg'}
+                onChange={() => setDietPreference('nonveg')}
+                className="rounded"
+              />
+              Non-Veg
+            </label>
           </div>
           <button
             type="submit"

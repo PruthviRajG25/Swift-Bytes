@@ -18,6 +18,16 @@ const FoodCard = ({ food }) => {
   const rating =
     food.ratingCount > 0 ? (food.ratingAvg || 0).toFixed(1) : null;
   const tags = Array.isArray(food.tags) ? food.tags : [];
+  const detectIsVeg = (f) => {
+    if (typeof f.isVeg === 'boolean') return f.isVeg;
+    const name = (f.name || '').toLowerCase();
+    const t = (Array.isArray(f.tags) ? f.tags : []).map((x) => String(x).toLowerCase());
+    if (t.includes('vegetarian') || t.includes('veg')) return true;
+    if (/\bveg\b/.test(name)) return true;
+    if (/paneer|tofu|salad|idli|dosa|poha|biryani|rajma|dal|upma|sandwich|mango|gulab|cheese|brownie|ice cream|ice-cream|cheesecake/.test(name)) return true;
+    return false;
+  };
+  const isVeg = detectIsVeg(food);
   const showNew = food.createdAt ? isNewItem(food.createdAt) : false;
 
   const handleAdd = (e) => {
@@ -48,10 +58,17 @@ const FoodCard = ({ food }) => {
           className="h-full w-full object-cover"
           loading="lazy"
           onError={(e) => {
-            e.target.src =
-              'https://res.cloudinary.com/demo/image/upload/c_fill,w_400,h_400/sample.jpg';
+            e.target.src = '/placeholder-food.svg';
           }}
         />
+        <div className="absolute left-2 bottom-2 flex items-center gap-2">
+          <span
+            className={`flex h-4 w-4 items-center justify-center rounded-full border-2 border-white ${
+              isVeg ? 'bg-green-600' : 'bg-red-600'
+            }`}
+            title={isVeg ? 'Vegetarian' : 'Non-vegetarian'}
+          />
+        </div>
         <span className="absolute right-2 top-2 rounded-md bg-green-600 px-1.5 py-0.5 text-[9px] font-bold text-white">
           {food.category}
         </span>

@@ -51,8 +51,8 @@ export const AuthProvider = ({ children }) => {
     return withSession;
   };
 
-  const register = async (name, email, password) => {
-    const { data } = await api.post('/auth/register', { name, email, password });
+  const register = async (name, email, password, dietPreference = 'all') => {
+    const { data } = await api.post('/auth/register', { name, email, password, dietPreference });
     const withSession = { ...data, loginAt: Date.now(), sessionDays: SESSION_DAYS };
     setUser(withSession);
     localStorage.setItem('canteenUser', JSON.stringify(withSession));

@@ -13,6 +13,7 @@ const emptyForm = {
   image: '',
   available: true,
   tags: '',
+  isVeg: true,
 };
 
 const DEFAULT_CATEGORIES = ['Breakfast', 'Lunch', 'Dinner', 'Snacks', 'Beverages', 'Dessert'];
@@ -49,6 +50,7 @@ const ManageMenu = () => {
       ...form,
       price: Number(form.price),
       available: form.available === true || form.available === 'true',
+      isVeg: form.isVeg === true || form.isVeg === 'true',
       tags: String(form.tags || '')
         .split(',')
         .map((t) => t.trim())
@@ -89,6 +91,7 @@ const ManageMenu = () => {
       image: food.image,
       available: food.available,
       tags: Array.isArray(food.tags) ? food.tags.join(', ') : '',
+      isVeg: food.isVeg === undefined || food.isVeg === null ? true : food.isVeg,
     });
   };
 
@@ -196,6 +199,29 @@ const ManageMenu = () => {
           />
           Available on menu
         </label>
+        <div className="flex items-center gap-3 text-sm">
+          <span className="font-medium">Diet</span>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="isVeg"
+              checked={form.isVeg === true}
+              onChange={() => setForm({ ...form, isVeg: true })}
+              className="rounded text-green-600"
+            />
+            Veg
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="isVeg"
+              checked={form.isVeg === false}
+              onChange={() => setForm({ ...form, isVeg: false })}
+              className="rounded text-red-600"
+            />
+            Non-Veg
+          </label>
+        </div>
         <input
           placeholder="Tags (comma separated) e.g. Bestseller, Spicy"
           value={form.tags}
@@ -243,6 +269,7 @@ const ManageMenu = () => {
               <th className="p-4">Item</th>
               <th className="p-4">Description</th>
               <th className="p-4">Category</th>
+              <th className="p-4">Diet</th>
               <th className="p-4">Price</th>
               <th className="p-4">Rating</th>
               <th className="p-4">Actions</th>
@@ -263,6 +290,10 @@ const ManageMenu = () => {
                   {food.description || '—'}
                 </td>
                 <td className="p-4">{food.category}</td>
+                <td className="p-4">
+                  <span className={`inline-block h-3 w-3 rounded-full ${food.isVeg ? 'bg-green-600' : 'bg-red-600'} mr-2`} />
+                  <span className="text-xs">{food.isVeg ? 'Veg' : 'Non-Veg'}</span>
+                </td>
                 <td className="p-4 font-semibold text-primary">₹{food.price}</td>
                 <td className="p-4 text-xs">
                   {food.ratingCount > 0

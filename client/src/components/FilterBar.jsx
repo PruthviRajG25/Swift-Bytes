@@ -1,13 +1,3 @@
-const categoryIcons = {
-  All: '🍱',
-  Breakfast: '🌅',
-  Lunch: '🍚',
-  Snacks: '🥪',
-  Beverages: '🥤',
-  Rice: '🍚',
-  Drinks: '🥤',
-};
-
 const FilterBar = ({ categories, active, onChange }) => {
   const chips = ['All', ...categories.filter((c) => c !== 'All')];
 
@@ -20,14 +10,13 @@ const FilterBar = ({ categories, active, onChange }) => {
             key={cat}
             type="button"
             onClick={() => onChange(cat === 'All' ? '' : cat)}
-            className={`flex shrink-0 flex-col items-center gap-1 rounded-xl border px-3 py-2 transition ${
+            className={`shrink-0 rounded-lg px-3 py-1 text-sm font-medium transition ${
               isActive
-                ? 'border-primary bg-primary text-white'
-                : 'border-cream bg-white text-neutral-600 hover:border-primary/40'
+                ? 'bg-primary text-white'
+                : 'border border-cream bg-white text-neutral-700 hover:bg-surface'
             }`}
           >
-            <span className="text-lg">{categoryIcons[cat] || '🍽️'}</span>
-            <span className="text-[10px] font-semibold">{cat}</span>
+            {cat}
           </button>
         );
       })}
