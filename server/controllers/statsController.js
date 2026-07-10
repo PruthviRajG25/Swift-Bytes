@@ -60,7 +60,9 @@ export const getDashboardStats = async (req, res) => {
       ? reviewedOrders.reduce((sum, o) => sum + o.review.rating, 0) / reviewedOrders.length
       : 0;
 
-  const ordersToday = await Order.countDocuments({ createdAt: { $gte: today } });
+  const ordersToday = (settings?.isOpen ?? true)
+    ? await Order.countDocuments({ createdAt: { $gte: today } })
+    : 0;
 
   res.json({
     totalOrders,
@@ -239,4 +241,30 @@ export const getDailyInvoice = async (req, res) => {
       status: o.status,
     })),
   });
+};
+
+/**
+ * @desc    Get all order reviews
+ * @route   GET /api/stats/reviews
+ * @access  Private (Admin-only)
+ */
+export const getOrderReviews = async (req, res) => {
+  try {
+    const reviews = await Order.find({ 'review.rating': { $exists: true } })
+      .populate('userId', 'name email')
+      .sort({ 'review.createdAt': -1 });
+
+    const formatted = reviews.map((o) => ({
+      orderId: o._id,
+      tokenNumber: o.tokenNumber,
+      customer: o.userId?.name || 'Anonymous',
+      rating: o.review.rating,
+      comment: o.review.comment || '',
+      createdAt: o.review.createdAt || o.updatedAt,
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

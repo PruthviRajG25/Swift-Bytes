@@ -1,5 +1,8 @@
+import mongoose from 'mongoose';
 import Order from '../models/Order.js';
 import Food from '../models/Food.js';
+import User from '../models/User.js';
+import Transaction from '../models/Transaction.js';
 import CanteenSettings from '../models/CanteenSettings.js';
 import { buildInvoice } from '../utils/invoice.js';
 import { buildUpiUri, generateUpiQrCode } from '../utils/upi.js';
@@ -49,6 +52,78 @@ export const createOrder = async (req, res) => {
 
   const tokenNumber = await getNextTokenNumber();
 
+  // If paying via Wallet, run atomic transaction session
+  if (paymentMethod === 'Wallet') {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      // 1. Fetch user atomically
+      const user = await User.findById(req.user._id).session(session);
+      if (!user) {
+        res.status(404);
+        throw new Error('User not found');
+      }
+
+      // 2. Check balance
+      if ((user.walletBalance || 0) < totalPrice) {
+        res.status(400);
+        throw new Error('Insufficient wallet balance');
+      }
+
+      // 3. Deduct balance
+      user.walletBalance -= totalPrice;
+      await user.save({ session });
+
+      // 4. Create debit transaction record
+      const refId = `ORDER-DEBIT-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      await Transaction.create(
+        [
+          {
+            userId: req.user._id,
+            amount: totalPrice,
+            type: 'debit',
+            status: 'completed',
+            referenceId: refId,
+          },
+        ],
+        { session }
+      );
+
+      // 5. Create order
+      const [order] = await Order.create(
+        [
+          {
+            userId: req.user._id,
+            items: orderItems,
+            totalPrice,
+            tokenNumber,
+            status: 'Placed',
+            instructions: String(instructions || '').trim().slice(0, 300),
+            paymentMethod: 'Wallet',
+            paymentStatus: 'Paid',
+          },
+        ],
+        { session }
+      );
+
+      await session.commitTransaction();
+      session.endSession();
+
+      const populatedOrder = await Order.findById(order._id).populate('userId', 'name email');
+      const io = req.app.get('io');
+      io.emit('newOrder', populatedOrder);
+      io.to(`user:${req.user._id}`).emit('orderUpdate', populatedOrder);
+
+      return res.status(201).json(populatedOrder);
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      const code = res.statusCode === 200 ? 500 : res.statusCode;
+      return res.status(code).json({ message: error.message });
+    }
+  }
+
+  // Standard Cash or UPI payment paths (original code)
   const order = await Order.create({
     userId: req.user._id,
     items: orderItems,
@@ -60,9 +135,7 @@ export const createOrder = async (req, res) => {
     paymentStatus: 'Pending',
   });
 
-  const populatedOrder = await Order.findById(order._id)
-    .populate('userId', 'name email');
-
+  const populatedOrder = await Order.findById(order._id).populate('userId', 'name email');
   const io = req.app.get('io');
   io.emit('newOrder', populatedOrder);
   io.to(`user:${req.user._id}`).emit('orderUpdate', populatedOrder);

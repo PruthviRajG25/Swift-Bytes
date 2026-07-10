@@ -34,6 +34,10 @@ const MobileNav = () => {
           <span className="text-lg">📦</span>
           Orders
         </Link>
+        <Link to="/wallet" className={linkClass('/wallet')}>
+          <span className="text-lg">👛</span>
+          Wallet
+        </Link>
       </div>
     </nav>
   );

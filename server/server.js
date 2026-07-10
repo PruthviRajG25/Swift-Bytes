@@ -10,6 +10,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import canteenRoutes from './routes/canteenRoutes.js';
+import walletRoutes from './routes/walletRoutes.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
 connectDB();
@@ -58,6 +59,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/canteen', canteenRoutes);
+app.use('/api/wallet', walletRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

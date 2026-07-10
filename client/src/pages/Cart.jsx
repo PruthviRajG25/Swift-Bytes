@@ -20,6 +20,15 @@ const Cart = () => {
   const [paymentMethod, setPaymentMethod] = useState('Cash');
   const [pairLoading, setPairLoading] = useState(false);
   const [pairs, setPairs] = useState([]);
+  const [walletBalance, setWalletBalance] = useState(0);
+
+  useEffect(() => {
+    if (user) {
+      api.get('/auth/me')
+        .then(({ data }) => setWalletBalance(data.walletBalance || 0))
+        .catch(() => {});
+    }
+  }, [user]);
 
   const gstAmount = totalPrice * GST_RATE;
   const grandTotal = calcTotalWithGst(totalPrice);
@@ -185,20 +194,20 @@ const Cart = () => {
       </div>
 
       <div className="mx-4 mt-4 rounded-xl border border-cream bg-white p-4">
-        <p className="text-sm font-semibold text-dark">Payment</p>
+        <p className="text-sm font-semibold text-dark">Payment Method</p>
         <div className="mt-3 flex gap-2">
-          {['Cash', 'UPI'].map((m) => (
+          {['Cash', 'UPI', 'Wallet'].map((m) => (
             <button
               key={m}
               type="button"
               onClick={() => setPaymentMethod(m)}
-              className={`flex-1 rounded-xl border px-3 py-2 text-sm font-bold ${
+              className={`flex-1 rounded-xl border px-2 py-2 text-xs font-bold transition ${
                 paymentMethod === m
                   ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-cream bg-surface text-neutral-700'
+                  : 'border-cream bg-surface text-neutral-700 hover:bg-neutral-50'
               }`}
             >
-              {m === 'Cash' ? '💵 Cash' : '📱 UPI'}
+              {m === 'Cash' ? '💵 Cash' : m === 'UPI' ? '📱 UPI' : '👛 Wallet'}
             </button>
           ))}
         </div>
@@ -207,18 +216,35 @@ const Cart = () => {
             Pay via UPI and show the confirmation at pickup. (UPI verification can be handled by admin.)
           </p>
         )}
+        {paymentMethod === 'Wallet' && (
+          <div className="mt-3 rounded-lg bg-surface p-2.5 text-xs">
+            <div className="flex justify-between font-bold">
+              <span className="text-neutral-500">Wallet Balance:</span>
+              <span className={walletBalance >= grandTotal ? 'text-green-600' : 'text-red-500'}>
+                ₹{walletBalance.toFixed(2)}
+              </span>
+            </div>
+            {walletBalance < grandTotal && (
+              <p className="mt-1 text-[10px] text-red-500 font-bold">
+                ⚠️ Insufficient balance. Please <Link to="/wallet" className="underline text-primary">recharge your wallet</Link>.
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       <button
         type="button"
         onClick={placeOrder}
-        disabled={loading || canteenLoading || !isOpen}
+        disabled={loading || canteenLoading || !isOpen || (paymentMethod === 'Wallet' && walletBalance < grandTotal)}
         className="mx-4 mt-4 flex w-[calc(100%-2rem)] items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-primary to-primary-light py-3.5 text-sm font-bold text-white disabled:opacity-60"
       >
         {loading ? (
           <LoadingSpinner size="sm" />
         ) : !isOpen ? (
           'Restaurant Closed'
+        ) : (paymentMethod === 'Wallet' && walletBalance < grandTotal) ? (
+          'Insufficient Wallet Balance'
         ) : (
           `Place Order · ₹${formatPrice(grandTotal)}`
         )}

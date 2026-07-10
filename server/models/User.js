@@ -30,6 +30,12 @@ const userSchema = new mongoose.Schema(
       enum: ['all', 'veg', 'nonveg'],
       default: 'all',
     },
+    walletBalance: {
+      type: Number,
+      required: true,
+      default: 0,
+      min: [0, 'Wallet balance cannot be negative'],
+    },
   },
   { timestamps: true }
 );

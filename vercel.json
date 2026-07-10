@@ -3,15 +3,15 @@
   "builds": [
     {
       "src": "client/package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
   "routes": [
-
     {
-
-        
-      "src": "^(?!/api)(.*)$",
+      "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
