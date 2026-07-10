@@ -1,7 +1,8 @@
 {
+  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!api/|assets/|static/|favicon.ico|swiftbites-logo.svg).*)" ,
       "destination": "/index.html"
     }
   ]

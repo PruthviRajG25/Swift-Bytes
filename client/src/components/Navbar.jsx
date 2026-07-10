@@ -36,12 +36,18 @@ const Navbar = () => {
                   </span>
                 )}
               </Link>
+              <Link to="/wallet" className="text-sm font-medium text-neutral-700 hover:text-primary">
+                Wallet
+              </Link>
             </>
           )}
           {user?.role === 'admin' && (
             <>
               <Link to="/admin" className="text-sm font-medium text-neutral-700 hover:text-primary">
                 Admin
+              </Link>
+              <Link to="/admin/transactions" className="text-sm font-medium text-neutral-700 hover:text-primary">
+                Wallet Approvals
               </Link>
             </>
           )}

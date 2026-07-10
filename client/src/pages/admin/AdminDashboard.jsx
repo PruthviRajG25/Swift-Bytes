@@ -7,6 +7,7 @@ import { CANTEEN } from '../../config/canteen';
 import toast from 'react-hot-toast';
 import { useCanteen } from '../../context/CanteenContext';
 import DailyInvoiceModal from '../../components/admin/DailyInvoiceModal';
+import ReviewsModal from '../../components/admin/ReviewsModal';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
@@ -15,6 +16,7 @@ const AdminDashboard = () => {
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [unreadOrders, setUnreadOrders] = useState(0);
   const [showDailyInvoice, setShowDailyInvoice] = useState(false);
+  const [showReviewsModal, setShowReviewsModal] = useState(false);
 
   const fetchStats = async () => {
     try {
@@ -63,6 +65,7 @@ const AdminDashboard = () => {
       label: 'Avg Rating',
       value: stats?.avgRating ? stats.avgRating.toFixed(1) : '—',
       sub: stats?.reviewCount ? `${stats.reviewCount} reviews` : 'No reviews yet',
+      onClick: () => setShowReviewsModal(true),
     },
   ];
 
@@ -72,11 +75,11 @@ const AdminDashboard = () => {
         <div className="flex items-center gap-3">
           <img
             src="/swiftbites-logo.svg"
-            alt="SwiftBites Bites"
+            alt="SwiftBites "
             className="h-10 w-10 rounded-lg object-cover"
           />
           <div>
-            <h1 className="text-lg font-bold text-dark">SwiftBites Bites — Admin</h1>
+            <h1 className="text-lg font-bold text-dark">SwiftBites  — Admin</h1>
             <p className="text-xs text-neutral-400">{CANTEEN.name}</p>
           </div>
         </div>
@@ -121,25 +124,39 @@ const AdminDashboard = () => {
             }}
             className="rounded-xl bg-dark px-4 py-2 text-xs font-bold text-white disabled:opacity-60"
           >
-            {isOpen ? 'Close Restaurant' : 'Open Restaurant'}
+            {isOpen ? 'Close Canteen' : 'Open Canteen'}
           </button>
         </div>
       </header>
 
       <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card) => (
-          <div key={card.label} className="rounded-2xl bg-surface p-4">
+          <div
+            key={card.label}
+            onClick={card.onClick}
+            className={`rounded-2xl bg-surface p-4 ${
+              card.onClick ? 'cursor-pointer hover:bg-neutral-100/60 transition duration-150' : ''
+            }`}
+          >
             <span className="text-xl">{card.icon}</span>
             <p className="mt-2 text-2xl font-extrabold text-dark">{card.value}</p>
             <p className="text-[10px] font-semibold uppercase tracking-wide text-neutral-400">
               {card.label}
             </p>
-            {card.sub && <p className="mt-1 text-[10px] text-green-600">{card.sub}</p>}
+            {card.sub && (
+              <p
+                className={`mt-1 text-[10px] ${
+                  card.onClick ? 'text-green-600 font-bold hover:underline' : 'text-neutral-500'
+                }`}
+              >
+                {card.sub}
+              </p>
+            )}
           </div>
         ))}
       </div>
 
-      <div className="mb-6 grid gap-4 lg:grid-cols-2">
+      <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <Link
           to="/admin/menu"
           className="rounded-2xl border border-primary/30 bg-[#FFF3E0] p-5 transition hover:shadow-md"
@@ -153,6 +170,13 @@ const AdminDashboard = () => {
         >
           <h2 className="font-bold text-dark">Live Orders Queue</h2>
           <p className="mt-1 text-sm text-neutral-600">Update status in real time</p>
+        </Link>
+        <Link
+          to="/admin/transactions"
+          className="rounded-2xl border border-cream bg-white p-5 transition hover:shadow-md"
+        >
+          <h2 className="font-bold text-dark">Wallet Approvals</h2>
+          <p className="mt-1 text-sm text-neutral-600">Approve pending wallet deposits</p>
         </Link>
       </div>
 
@@ -184,6 +208,10 @@ const AdminDashboard = () => {
             fetchStats(); // Refresh stats after invoice is printed
           }} 
         />
+      )}
+
+      {showReviewsModal && (
+        <ReviewsModal onClose={() => setShowReviewsModal(false)} />
       )}
     </div>
   );

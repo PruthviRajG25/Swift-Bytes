@@ -20,6 +20,8 @@ import ManageOrders from './pages/admin/ManageOrders';
 import AdminAlerts from './pages/admin/AdminAlerts';
 import MobileNav from './components/MobileNav';
 import { useAuth } from './context/AuthContext';
+import Wallet from './pages/Wallet';
+import ManageTransactions from './pages/admin/ManageTransactions';
 
 const HomeRedirect = () => {
   const { user, loading } = useAuth();
@@ -58,6 +60,14 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path="/wallet"
+                    element={
+                      <ProtectedRoute>
+                        <Wallet />
+                      </ProtectedRoute>
+                    }
+                  />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route
@@ -89,6 +99,14 @@ function App() {
                     element={
                       <ProtectedRoute adminOnly>
                         <AdminAlerts />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/transactions"
+                    element={
+                      <ProtectedRoute adminOnly>
+                        <ManageTransactions />
                       </ProtectedRoute>
                     }
                   />
