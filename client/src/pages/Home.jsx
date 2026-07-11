@@ -42,6 +42,8 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [search, setSearch] = useState('');
   const [dietMode, setDietMode] = useState('all'); // 'all' | 'veg' | 'nonveg'
+  const [priceSort, setPriceSort] = useState('default'); // 'default' | 'low-to-high' | 'high-to-low'
+  const [priceRange, setPriceRange] = useState('all'); // 'all' | 'under-100' | '100-250' | 'over-250'
   const [loading, setLoading] = useState(true);
   const [trending, setTrending] = useState([]);
   const [topCategoryItem, setTopCategoryItem] = useState(null);
@@ -104,17 +106,6 @@ const Home = () => {
     fetchTop();
   }, [selectedCategory, categories]);
 
-  const filteredFoods = useMemo(() => {
-    if (!search.trim()) return foods;
-    const q = search.toLowerCase();
-    return foods.filter(
-      (f) =>
-        f.name.toLowerCase().includes(q) ||
-        f.category.toLowerCase().includes(q) ||
-        (f.description || '').toLowerCase().includes(q)
-    );
-  }, [foods, search]);
-
   const detectIsVeg = (f) => {
     if (typeof f.isVeg === 'boolean') return f.isVeg;
     const name = (f.name || '').toLowerCase();
@@ -125,22 +116,57 @@ const Home = () => {
     return false;
   };
 
-  const dietFilteredFoods = useMemo(() => {
-    if (dietMode === 'all') return filteredFoods;
-    return filteredFoods.filter((f) => (dietMode === 'veg' ? detectIsVeg(f) : !detectIsVeg(f)));
-  }, [filteredFoods, dietMode]);
+  const processedFoods = useMemo(() => {
+    let result = foods;
 
-  const sortedFoods = useMemo(() => {
-    if (search.trim()) return filteredFoods;
-    if (!trending?.length) return filteredFoods;
-    const rank = new Map(trending.map((t, idx) => [String(t.food?._id), idx]));
-    return [...filteredFoods].sort((a, b) => {
-      const ra = rank.has(String(a._id)) ? rank.get(String(a._id)) : Number.POSITIVE_INFINITY;
-      const rb = rank.has(String(b._id)) ? rank.get(String(b._id)) : Number.POSITIVE_INFINITY;
-      if (ra !== rb) return ra - rb;
-      return (b.ratingAvg || 0) - (a.ratingAvg || 0);
-    });
-  }, [filteredFoods, trending, search]);
+    // 1. Search filter
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      result = result.filter(
+        (f) =>
+          f.name.toLowerCase().includes(q) ||
+          f.category.toLowerCase().includes(q) ||
+          (f.description || '').toLowerCase().includes(q)
+      );
+    }
+
+    // 2. Diet mode filter
+    if (dietMode !== 'all') {
+      result = result.filter((f) => (dietMode === 'veg' ? detectIsVeg(f) : !detectIsVeg(f)));
+    }
+
+    // 3. Price range filter
+    if (priceRange !== 'all') {
+      result = result.filter((f) => {
+        if (priceRange === 'under-100') return f.price <= 100;
+        if (priceRange === '100-250') return f.price > 100 && f.price <= 250;
+        if (priceRange === 'over-250') return f.price > 250;
+        return true;
+      });
+    }
+
+    // 4. Sorting
+    if (priceSort === 'low-to-high') {
+      result = [...result].sort((a, b) => a.price - b.price);
+    } else if (priceSort === 'high-to-low') {
+      result = [...result].sort((a, b) => b.price - a.price);
+    } else {
+      // Default sorting (by trending/popularity if available, otherwise by rating)
+      if (trending?.length && !search.trim()) {
+        const rank = new Map(trending.map((t, idx) => [String(t.food?._id), idx]));
+        result = [...result].sort((a, b) => {
+          const ra = rank.has(String(a._id)) ? rank.get(String(a._id)) : Number.POSITIVE_INFINITY;
+          const rb = rank.has(String(b._id)) ? rank.get(String(b._id)) : Number.POSITIVE_INFINITY;
+          if (ra !== rb) return ra - rb;
+          return (b.ratingAvg || 0) - (a.ratingAvg || 0);
+        });
+      } else {
+        result = [...result].sort((a, b) => (b.ratingAvg || 0) - (a.ratingAvg || 0));
+      }
+    }
+
+    return result;
+  }, [foods, search, dietMode, priceRange, priceSort, trending]);
 
   const period = getMealPeriod();
 
@@ -164,38 +190,111 @@ const Home = () => {
             </span>
           ))}
         </div>
-        <div className="mt-4 flex items-center gap-2 rounded-xl bg-white px-3 py-2.5 shadow-md">
-          <span className="text-sm">🔍</span>
-          <input
-            type="search"
-            placeholder="Search dishes, snacks..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-neutral-400"
-          />
-            <div className="ml-2 flex items-center gap-1">
+        <div className="mt-4 rounded-2xl bg-white/95 backdrop-blur-md p-3.5 shadow-lg border border-cream/50 space-y-3.5">
+          <div className="flex items-center gap-2 px-1">
+            <span className="text-base">🔍</span>
+            <input
+              type="search"
+              placeholder="Search dishes, snacks..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 bg-transparent text-sm outline-none placeholder:text-neutral-400 font-medium"
+            />
+          </div>
+          
+          <hr className="border-cream/70" />
+
+          {/* Filter Options */}
+          <div className="flex flex-col gap-3">
+            {/* Diet & Sort row */}
+            <div className="flex flex-wrap items-center justify-between gap-2.5">
+              {/* Diet selection */}
+              <div className="flex items-center gap-1 bg-cream/45 p-0.5 rounded-lg border border-cream">
+                <button
+                  type="button"
+                  onClick={() => setDietMode('all')}
+                  className={`rounded-md px-3 py-1 text-[11px] font-extrabold transition-all duration-150 ${
+                    dietMode === 'all' ? 'bg-primary text-white shadow-sm' : 'text-neutral-600 hover:bg-cream/65'
+                  }`}
+                >
+                  All
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDietMode('veg')}
+                  className={`rounded-md px-3 py-1 text-[11px] font-extrabold transition-all duration-150 ${
+                    dietMode === 'veg' ? 'bg-green-600 text-white shadow-sm' : 'text-neutral-600 hover:bg-cream/65'
+                  }`}
+                >
+                  Veg
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDietMode('nonveg')}
+                  className={`rounded-md px-3 py-1 text-[11px] font-extrabold transition-all duration-150 ${
+                    dietMode === 'nonveg' ? 'bg-red-600 text-white shadow-sm' : 'text-neutral-600 hover:bg-cream/65'
+                  }`}
+                >
+                  Non-Veg
+                </button>
+              </div>
+
+              {/* Price Sort Selection */}
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-wider">Sort By</span>
+                <select
+                  value={priceSort}
+                  onChange={(e) => setPriceSort(e.target.value)}
+                  className="rounded-lg border border-cream bg-surface px-3 py-1 text-[11px] font-extrabold text-neutral-700 outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 cursor-pointer"
+                >
+                  <option value="default">⭐ Popularity</option>
+                  <option value="low-to-high">₹ Price: Low to High</option>
+                  <option value="high-to-low">₹ Price: High to Low</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Price Range selection row */}
+            <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+              <span className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-wider mr-1.5">Price</span>
               <button
                 type="button"
-                onClick={() => setDietMode('all')}
-                className={`rounded-full px-3 py-1 text-[12px] ${dietMode === 'all' ? 'bg-primary text-white' : 'bg-white text-neutral-600 border border-cream'}`}
+                onClick={() => setPriceRange('all')}
+                className={`rounded-full px-3 py-1 text-[10px] font-extrabold border transition ${
+                  priceRange === 'all' ? 'bg-dark text-white border-dark' : 'bg-surface text-neutral-600 border-cream hover:bg-cream/60'
+                }`}
               >
-                All
+                All Prices
               </button>
               <button
                 type="button"
-                onClick={() => setDietMode('veg')}
-                className={`rounded-full px-3 py-1 text-[12px] ${dietMode === 'veg' ? 'bg-green-600 text-white' : 'bg-white text-neutral-600 border border-cream'}`}
+                onClick={() => setPriceRange('under-100')}
+                className={`rounded-full px-3 py-1 text-[10px] font-extrabold border transition ${
+                  priceRange === 'under-100' ? 'bg-dark text-white border-dark' : 'bg-surface text-neutral-600 border-cream hover:bg-cream/60'
+                }`}
               >
-                Veg
+                Under ₹100
               </button>
               <button
                 type="button"
-                onClick={() => setDietMode('nonveg')}
-                className={`rounded-full px-3 py-1 text-[12px] ${dietMode === 'nonveg' ? 'bg-red-600 text-white' : 'bg-white text-neutral-600 border border-cream'}`}
+                onClick={() => setPriceRange('100-250')}
+                className={`rounded-full px-3 py-1 text-[10px] font-extrabold border transition ${
+                  priceRange === '100-250' ? 'bg-dark text-white border-dark' : 'bg-surface text-neutral-600 border-cream hover:bg-cream/60'
+                }`}
               >
-                Non-Veg
+                ₹100 - ₹250
+              </button>
+              <button
+                type="button"
+                onClick={() => setPriceRange('over-250')}
+                className={`rounded-full px-3 py-1 text-[10px] font-extrabold border transition ${
+                  priceRange === 'over-250' ? 'bg-dark text-white border-dark' : 'bg-surface text-neutral-600 border-cream hover:bg-cream/60'
+                }`}
+              >
+                Over ₹250
               </button>
             </div>
+          </div>
         </div>
       </section>
 
@@ -249,11 +348,11 @@ const Home = () => {
           <div className="flex justify-center py-16">
             <LoadingSpinner size="lg" />
           </div>
-        ) : dietFilteredFoods.length === 0 ? (
+        ) : processedFoods.length === 0 ? (
           <p className="py-16 text-center text-sm text-neutral-500">No items found.</p>
         ) : (
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {dietFilteredFoods.map((food) => (
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 animate-fade-in">
+            {processedFoods.map((food) => (
               <FoodCard key={food._id} food={food} />
             ))}
           </div>

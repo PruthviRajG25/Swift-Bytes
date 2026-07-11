@@ -9,6 +9,7 @@ import {
   getOrderInvoice,
   getOrderUpiIntent,
   updatePaymentStatus,
+  cancelOrder,
 } from '../controllers/orderController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { adminOnly } from '../middleware/roleMiddleware.js';
@@ -24,5 +25,6 @@ router.get('/:id/upi', protect, getOrderUpiIntent);
 router.get('/:id', protect, getOrderById);
 router.put('/:id/status', protect, adminOnly, updateOrderStatus);
 router.put('/:id/payment', protect, adminOnly, updatePaymentStatus);
+router.put('/:id/cancel', protect, cancelOrder);
 
 export default router;
