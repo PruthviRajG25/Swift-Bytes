@@ -4,11 +4,19 @@
     {
       "src": "client/package.json",
       "use": "@vercel/static-build"
+    },
+    {
+      "src": "server/server.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "^(?!/api)(.*)$",
+      "src": "/api/(.*)",
+      "dest": "server/server.js"
+    },
+    {
+      "src": "/((?!api/|assets/|static/|favicon.ico|swiftbites-logo.svg).*)$",
       "dest": "/index.html"
     }
   ]

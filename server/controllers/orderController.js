@@ -358,3 +358,84 @@ export const submitOrderReview = async (req, res) => {
   const populatedOrder = await Order.findById(order._id).populate('userId', 'name email');
   res.json(populatedOrder);
 };
+
+// @desc    Cancel order (before confirmation, i.e. when status is 'Placed')
+// @route   PUT /api/orders/:id/cancel
+// @access  Private
+export const cancelOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    // Verify authorization: customer who placed the order or admin
+    if (
+      req.user.role !== 'admin' &&
+      order.userId.toString() !== req.user._id.toString()
+    ) {
+      return res.status(403).json({ message: 'Not authorized to cancel this order' });
+    }
+
+    // Order can only be cancelled if it's in 'Placed' status
+    if (order.status !== 'Placed') {
+      return res.status(400).json({ message: 'Order cannot be cancelled after confirmation' });
+    }
+
+    // If payment method is Wallet and payment status is Paid, refund money atomically
+    if (order.paymentMethod === 'Wallet' && order.paymentStatus === 'Paid') {
+      const session = await mongoose.startSession();
+      session.startTransaction();
+      try {
+        const user = await User.findById(order.userId).session(session);
+        if (!user) {
+          res.status(404);
+          throw new Error('User not found');
+        }
+
+        // Refund wallet balance
+        user.walletBalance = (user.walletBalance || 0) + order.totalPrice;
+        await user.save({ session });
+
+        // Create transaction record for the refund
+        const refId = `REFUND-ORDER-${order.tokenNumber}-${Date.now()}`;
+        await Transaction.create(
+          [
+            {
+              userId: order.userId,
+              amount: order.totalPrice,
+              type: 'credit',
+              status: 'completed',
+              referenceId: refId,
+            },
+          ],
+          { session }
+        );
+
+        order.status = 'Cancelled';
+        await order.save({ session });
+
+        await session.commitTransaction();
+        session.endSession();
+      } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        const code = res.statusCode === 200 ? 500 : res.statusCode;
+        return res.status(code).json({ message: error.message });
+      }
+    } else {
+      order.status = 'Cancelled';
+      await order.save();
+    }
+
+    const populatedOrder = await Order.findById(order._id).populate('userId', 'name email');
+
+    const io = req.app.get('io');
+    io.emit('orderStatusChanged', populatedOrder);
+    io.to(`user:${order.userId}`).emit('orderUpdate', populatedOrder);
+
+    res.json(populatedOrder);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

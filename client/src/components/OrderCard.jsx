@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import ReviewForm from './ReviewForm';
 import { CANTEEN } from '../config/canteen';
 import InvoiceModal from './InvoiceModal';
+import api from '../services/api';
+import toast from 'react-hot-toast';
 
 const STATUS_STEPS = [
   { key: 'Placed', label: 'Order Confirmed', sub: 'Canteen accepted your order' },
@@ -15,6 +17,7 @@ const statusBadge = {
   Preparing: 'bg-[#FFF3E0] text-[#E65100]',
   Ready: 'bg-green-100 text-green-800',
   Completed: 'bg-neutral-100 text-neutral-600',
+  Cancelled: 'bg-red-100 text-red-800',
 };
 
 const stepIndex = (status) => STATUS_STEPS.findIndex((s) => s.key === status);
@@ -22,19 +25,34 @@ const stepIndex = (status) => STATUS_STEPS.findIndex((s) => s.key === status);
 const OrderCard = ({ order, showCustomer = false, onReviewSubmitted }) => {
   const [localOrder, setLocalOrder] = useState(order);
   const [showInvoice, setShowInvoice] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
 
   useEffect(() => {
     setLocalOrder(order);
   }, [order]);
 
   const current = stepIndex(localOrder.status);
-  const showTracking = localOrder.status !== 'Completed';
+  const showTracking = localOrder.status !== 'Completed' && localOrder.status !== 'Cancelled';
   const canReview =
     !showCustomer && localOrder.status === 'Completed' && !localOrder.review?.rating;
 
   const handleReview = (updated) => {
     setLocalOrder(updated);
     onReviewSubmitted?.(updated);
+  };
+
+  const handleCancelOrder = async () => {
+    if (!window.confirm('Are you sure you want to cancel this order?')) return;
+    setCancelling(true);
+    try {
+      const { data } = await api.put(`/orders/${localOrder._id}/cancel`);
+      setLocalOrder(data);
+      toast.success('Order cancelled successfully');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to cancel order');
+    } finally {
+      setCancelling(false);
+    }
   };
 
   return (
@@ -132,6 +150,26 @@ const OrderCard = ({ order, showCustomer = false, onReviewSubmitted }) => {
           <span className="text-xs text-neutral-500">Total</span>
           <span className="font-bold text-primary">₹{localOrder.totalPrice}</span>
         </div>
+
+        {localOrder.status === 'Cancelled' && (
+          <div className="mt-4 rounded-xl bg-red-50 p-3 text-center border border-red-100/60 animate-pulse">
+            <p className="text-xs font-bold text-red-700">❌ Order Cancelled</p>
+            <p className="text-[10px] text-red-600/80 mt-0.5">
+              This order has been cancelled and refunded if paid via Wallet.
+            </p>
+          </div>
+        )}
+
+        {localOrder.status === 'Placed' && !showCustomer && (
+          <button
+            type="button"
+            onClick={handleCancelOrder}
+            disabled={cancelling}
+            className="mt-4 w-full rounded-xl bg-red-50 py-2.5 text-xs font-bold text-red-600 border border-red-100 hover:bg-red-100 hover:text-red-700 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 shadow-sm"
+          >
+            {cancelling ? 'Cancelling...' : 'Cancel Order'}
+          </button>
+        )}
 
         {localOrder.review?.rating && (
           <div className="mt-3 rounded-lg bg-surface p-3">

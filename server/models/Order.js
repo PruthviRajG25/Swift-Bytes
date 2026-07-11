@@ -52,7 +52,7 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Placed', 'Preparing', 'Ready', 'Completed'],
+      enum: ['Placed', 'Preparing', 'Ready', 'Completed', 'Cancelled'],
       default: 'Placed',
     },
     tokenNumber: {
