@@ -16,6 +16,18 @@ import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 connectDB();
 
 const app = express();
+
+// Vercel URL rewrite handler middleware
+app.use((req, res, next) => {
+  const originalPath = req.headers['x-matched-path'] || req.headers['x-original-url'];
+  if (originalPath) {
+    const urlParts = req.url.split('?');
+    const queryString = urlParts.length > 1 ? `?${urlParts[1]}` : '';
+    req.url = originalPath.split('?')[0] + queryString;
+  }
+  next();
+});
+
 const httpServer = createServer(app);
 
 // Allow local origins plus production client URL (strip trailing slash if present)
