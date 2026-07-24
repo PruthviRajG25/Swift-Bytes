@@ -1,4 +1,4 @@
-<marquee><h1><b>🍔 SwiftBytes<b><h1></marquee>
+
 # 🍔 SwiftBytes - Smart Canteen Management System
 
 Welcome to **SwiftBytes** (formerly Smart Canteen) — a premium full-stack MERN web application with a built-in Wallet ledger system, simulated UPI payment flow, live order tracking via Socket.IO, and a robust admin dashboard.
