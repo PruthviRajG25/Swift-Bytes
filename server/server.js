@@ -17,6 +17,14 @@ connectDB();
 
 const app = express();
 
+// Ensure req.url starts with /api for Vercel routing compatibility
+app.use((req, res, next) => {
+  if (!req.url.startsWith('/api') && req.url !== '/') {
+    req.url = '/api' + req.url;
+  }
+  next();
+});
+
 const httpServer = createServer(app);
 
 // Allow local origins plus production client URL (strip trailing slash if present)
