@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
-  "outputDirectory": "dist",
+  "outputDirectory": "client/dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
