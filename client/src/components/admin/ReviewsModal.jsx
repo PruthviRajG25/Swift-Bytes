@@ -53,7 +53,7 @@ const ReviewsModal = ({ onClose }) => {
             </div>
           ) : (
             <ul className="space-y-4 divide-y divide-cream/60">
-              {reviews.map((rev, idx) => (
+              {reviews.map((rev) => (
                 <li
                   key={rev.orderId}
                   className={`pt-4 first:pt-0 border-cream/60`}

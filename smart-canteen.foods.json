@@ -1,0 +1,347 @@
+[
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5dd"
+    },
+    "name": "Masala Dosa",
+    "category": "Breakfast",
+    "description": "Crispy South Indian rice crepe served with coconut chutney and sambar.",
+    "price": 80,
+    "isVeg": true,
+    "tags": [
+      "Bestseller",
+      "South Indian",
+      "Crispy"
+    ],
+    "image": "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5de"
+    },
+    "name": "Veg Sandwich",
+    "category": "Snacks",
+    "description": "Fresh vegetable sandwich with cheese and green mint chutney.",
+    "price": 60,
+    "isVeg": true,
+    "tags": [
+      "Healthy",
+      "Quick Bite",
+      "Vegetarian"
+    ],
+    "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5df"
+    },
+    "name": "Cold Coffee",
+    "category": "Beverages",
+    "description": "Chilled creamy coffee blended with milk and ice cream.",
+    "price": 90,
+    "isVeg": true,
+    "tags": [
+      "Refreshing",
+      "Coffee",
+      "Popular"
+    ],
+    "image": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e0"
+    },
+    "name": "Paneer Butter Masala",
+    "category": "Lunch",
+    "description": "Soft paneer cubes cooked in rich, buttery, and creamy tomato gravy.",
+    "price": 180,
+    "isVeg": true,
+    "tags": [
+      "North Indian",
+      "Creamy",
+      "Bestseller"
+    ],
+    "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e1"
+    },
+    "name": "Chocolate Brownie",
+    "category": "Dessert",
+    "description": "Warm gooey chocolate brownie topped with chocolate sauce (contains egg).",
+    "price": 110,
+    "isVeg": false,
+    "tags": [
+      "Sweet",
+      "Chocolate",
+      "Favorite",
+      "Non-Veg"
+    ],
+    "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e2"
+    },
+    "name": "Poha",
+    "category": "Breakfast",
+    "description": "Light and flavorful flattened rice cooked with peanuts, curry leaves, and spices.",
+    "price": 50,
+    "isVeg": true,
+    "tags": [
+      "Healthy",
+      "Maharashtrian",
+      "Light"
+    ],
+    "image": "https://images.unsplash.com/photo-1645177628172-a94c1f96e6db?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e3"
+    },
+    "name": "French Fries",
+    "category": "Snacks",
+    "description": "Crispy golden potato fries served with ketchup.",
+    "price": 70,
+    "isVeg": true,
+    "tags": [
+      "Crispy",
+      "Kids Favorite",
+      "Fast Food"
+    ],
+    "image": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e4"
+    },
+    "name": "Mango Shake",
+    "category": "Beverages",
+    "description": "Thick and creamy mango milkshake made with fresh mangoes (contains egg-based vanilla ice cream).",
+    "price": 95,
+    "isVeg": false,
+    "tags": [
+      "Summer Special",
+      "Sweet",
+      "Refreshing",
+      "Non-Veg"
+    ],
+    "image": "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e5"
+    },
+    "name": "Chicken Biryani",
+    "category": "Lunch",
+    "description": "Aromatic basmati rice layered with spiced marinated chicken, herbs, and saffron.",
+    "price": 150,
+    "isVeg": false,
+    "tags": [
+      "Spicy",
+      "Rice Dish",
+      "Popular",
+      "Non-Veg"
+    ],
+    "image": "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e6"
+    },
+    "name": "Samosa",
+    "category": "Snacks",
+    "description": "Crispy golden pastry triangles filled with spiced potatoes and peas.",
+    "price": 60,
+    "isVeg": true,
+    "tags": [
+      "Crispy",
+      "Popular Snacks",
+      "Traditional"
+    ],
+    "image": "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e7"
+    },
+    "name": "Idli Sambar",
+    "category": "Breakfast",
+    "description": "Steamed soft rice cakes served with hot lentil sambar and coconut chutney.",
+    "price": 70,
+    "isVeg": true,
+    "tags": [
+      "Healthy",
+      "South Indian",
+      "Light"
+    ],
+    "image": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e8"
+    },
+    "name": "Spring Rolls",
+    "category": "Snacks",
+    "description": "Crispy golden vegetable rolls served with a tangy sweet-chili dipping sauce.",
+    "price": 120,
+    "isVeg": true,
+    "tags": [
+      "Chinese",
+      "Crispy",
+      "Spicy"
+    ],
+    "image": "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5e9"
+    },
+    "name": "Lemon Soda",
+    "category": "Beverages",
+    "description": "Fizzy sweet and salty lemon drink with a refreshing tangy finish.",
+    "price": 45,
+    "isVeg": true,
+    "tags": [
+      "Refreshing",
+      "Summer Drink",
+      "Tangy"
+    ],
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5ea"
+    },
+    "name": "Chole Bhature",
+    "category": "Lunch",
+    "description": "Puffed golden bhature served alongside robust, spicy chickpea curry.",
+    "price": 140,
+    "isVeg": true,
+    "tags": [
+      "Punjabi",
+      "Spicy",
+      "Filling"
+    ],
+    "image": "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5eb"
+    },
+    "name": "Ice Cream Sundae",
+    "category": "Dessert",
+    "description": "Rich vanilla ice cream topped with dark chocolate syrup and crunchy nuts.",
+    "price": 130,
+    "isVeg": true,
+    "tags": [
+      "Cold Dessert",
+      "Sweet",
+      "Chocolate"
+    ],
+    "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5ec"
+    },
+    "name": "Upma",
+    "category": "Breakfast",
+    "description": "Savory semolina dish cooked with light vegetables, nuts, and traditional tempering.",
+    "price": 55,
+    "isVeg": true,
+    "tags": [
+      "Healthy",
+      "South Indian",
+      "Light"
+    ],
+    "image": "https://images.unsplash.com/photo-1630383249896-424e482df921?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5ed"
+    },
+    "name": "Nachos with Dip",
+    "category": "Snacks",
+    "description": "Crunchy corn tortilla chips served alongside creamy cheese sauce.",
+    "price": 125,
+    "isVeg": true,
+    "tags": [
+      "Mexican",
+      "Crunchy",
+      "Cheesy"
+    ],
+    "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5ee"
+    },
+    "name": "Strawberry Smoothie",
+    "category": "Beverages",
+    "description": "Fresh strawberries blended with Greek yogurt and honey (contains gelatin-based stabilizer).",
+    "price": 110,
+    "isVeg": false,
+    "tags": [
+      "Healthy",
+      "Fruity",
+      "Refreshing",
+      "Non-Veg"
+    ],
+    "image": "https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5ef"
+    },
+    "name": "Rajma Chawal",
+    "category": "Lunch",
+    "description": "Comforting red kidney bean curry served alongside steamed basmati rice.",
+    "price": 130,
+    "isVeg": true,
+    "tags": [
+      "Comfort Food",
+      "North Indian",
+      "Protein Rich"
+    ],
+    "image": "https://images.unsplash.com/photo-1633945274309-2c16c9682a8b?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  },
+  {
+    "_id": {
+      "$oid": "6a2d40f5aa224dab40fcf5f0"
+    },
+    "name": "Cheesecake",
+    "category": "Dessert",
+    "description": "Creamy baked New York style cheesecake on a buttery biscuit base (contains gelatin).",
+    "price": 160,
+    "isVeg": false,
+    "tags": [
+      "Creamy",
+      "Sweet",
+      "Premium",
+      "Non-Veg"
+    ],
+    "image": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80",
+    "available": true
+  }
+]
