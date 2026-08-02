@@ -6,7 +6,7 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen?logo=mongodb&style=flat-square)](https://www.mongodb.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS%20v4-38bdf8?logo=tailwind-css&style=flat-square)](https://tailwindcss.com/)
 [![Socket.io](https://img.shields.io/badge/Socket.IO-v4-black?logo=socket.io&style=flat-square)](https://socket.io/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 
 Welcome to **SwiftBytes** — a modern, production-ready, full-stack MERN (MongoDB, Express, React, Node) application that transforms canteen operations. SwiftBytes features a secure atomic wallet-ledger deposit system, simulated UPI payment generation, dynamic order status queues, and real-time Socket.IO synchronization.
 
