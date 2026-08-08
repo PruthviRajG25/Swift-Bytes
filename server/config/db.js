@@ -5,6 +5,10 @@ const connectDB = async () => {
     return;
   }
   try {
+    const maskedURI = process.env.MONGO_URI 
+      ? process.env.MONGO_URI.replace(/:([^@]+)@/, ':****@')
+      : 'undefined';
+    console.log('Mongoose attempting connection to:', maskedURI);
     const conn = await mongoose.connect(process.env.MONGO_URI, {
       serverSelectionTimeoutMS: 5000,
     });
