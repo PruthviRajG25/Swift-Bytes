@@ -1,5 +1,6 @@
 {
   "cleanUrls": true,
+  "regions": ["bom1"],
   "rewrites": [
     {
       "source": "/api/(.*)",
