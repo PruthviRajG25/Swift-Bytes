@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 // __dirname resolves to the scripts/ folder under project root
 const rootDir = path.join(__dirname, '..');
 const clientDist = path.join(rootDir, 'client', 'dist');
-const rootDist = path.join(rootDir, 'dist');
+const rootPublic = path.join(rootDir, 'public');
 
 // Helper to copy directory recursively
 function copyDir(src, dest) {
@@ -28,11 +28,11 @@ function copyDir(src, dest) {
 }
 
 if (fs.existsSync(clientDist)) {
-  // Clear root dist if it exists
-  fs.rmSync(rootDist, { recursive: true, force: true });
-  copyDir(clientDist, rootDist);
-  console.log('Successfully copied client/dist to root dist');
+  // Clear root public if it exists
+  fs.rmSync(rootPublic, { recursive: true, force: true });
+  copyDir(clientDist, rootPublic);
+  console.log('Successfully copied client/dist to root public');
 } else {
-  console.error(`Error: client/dist does not exist at "${clientDist}"! Cannot copy to root dist.`);
+  console.error(`Error: client/dist does not exist at "${clientDist}"! Cannot copy to root public.`);
   process.exit(1);
 }
