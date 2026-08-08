@@ -19,6 +19,7 @@ const app = express();
 
 app.use((req, res, next) => {
   console.log('Incoming Vercel request:', req.method, 'url:', req.url, 'originalUrl:', req.originalUrl);
+  console.log('MONGO_URI exists:', !!process.env.MONGO_URI, 'Env keys:', Object.keys(process.env).filter(k => !k.startsWith('VERCEL') && !k.startsWith('AWS') && !k.startsWith('npm_') && !k.startsWith('NODE_')));
   if (!req.url.startsWith('/api') && req.url !== '/') {
     req.url = '/api' + req.url;
   }
