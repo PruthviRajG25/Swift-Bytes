@@ -17,11 +17,12 @@ connectDB();
 
 const app = express();
 
-// Ensure req.url starts with /api for Vercel routing compatibility
 app.use((req, res, next) => {
+  console.log('Incoming Vercel request:', req.method, 'url:', req.url, 'originalUrl:', req.originalUrl);
   if (!req.url.startsWith('/api') && req.url !== '/') {
     req.url = '/api' + req.url;
   }
+  console.log('Normalized URL:', req.url);
   next();
 });
 
